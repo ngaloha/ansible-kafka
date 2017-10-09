@@ -1,13 +1,10 @@
 ---
-- host: all
-  vars:
-    java_version: 8
-    java_subversion: 144
-    java_build: 13
-    scala_version:
-    sbt_version:
-    zookeeper_version:
-    kafka_version:
+- hosts: all
+  vars_files:
+    - ./vars/general.yml
+    - ./vars/java.yml
+    - ./vars/zookeeper.yml
+    - ./vars/kafka.yml
 
   tasks:
     - include: task/java.yml

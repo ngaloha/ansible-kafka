@@ -1,5 +1,36 @@
-name: Downloading Java Package
-  shell: wget --no-cookies --no-check-certificate --header "Cookie: gpw_e24=http%3A%2F%2Fwww.oracle.com%2F; oraclelicense=accept-securebackup-cookie" "http://download.oracle.com/otn-pub/java/jdk/{{ java_version }}u{{ java_subversion }}-b{{ java_build }}/jdk-{{ java_version }}u{{ java_subversion }}-linux-x64.tar.gz"
+---
+- name: Download Java
+  command: "wget -q -O {{ java_archive_path }} --no-check-certificate --no-cookies --header 'Cookie: oraclelicense=accept-securebackup-cookie' {{download_url}} creates={{java_archive}}"
 
+- name: Unpack archive
+  command: "tar -zxf {{ java_archive_path }} -C {{ download_folder }} creates={{ java_home }}"
 
+- name: Fix ownership
+  file: state=directory path={{ java_home }} owner=root group=root recurse=yes
 
+- name: Make Java available for system
+  command: 'alternatives --install "/usr/bin/java" "java" "{{ java_home }}/bin/java" 2000'
+
+- name: Make Javac available for system
+  command: 'alternatives --install "/usr/bin/javac" "javac" "{{ java_home }}/bin/javac" 2000'
+
+- name: Make Jar available for system
+  command: 'alternatives --install "/usr/bin/jar" "jar" "{{ java_home }}/bin/jar" 2000'
+
+- name: Set Javac available for system
+  command: 'alternatives --set javac "{{ java_home }}/bin/javac"'
+
+- name: Set Jar available for system
+  command: 'alternatives --set jar "{{ java_home }}/bin/jar"'
+
+- name: Setup JAVA_HOME variable
+  command: "export JAVA_HOME={{ java_home }}"
+
+- name: Setup JRE_HOME Variable
+  command: "export JRE_HOME={{ java_home }}/jre"
+
+- name: Setup PATH Variable
+  command: "export PATH=$PATH:/opt/{{ java_home }}/bin:{{ java_home }}/jre/bin"
+
+- name: Clean up
+  file: state=absent path={{ java_archive_path }}

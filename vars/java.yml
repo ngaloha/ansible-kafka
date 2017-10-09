@@ -1,0 +1,11 @@
+---
+java_version: 8
+java_subversion: 144
+java_build: 13
+scala_version:
+sbt_version:
+java_source: "http://download.oracle.com/otn-pub/java/jdk"
+java_archive: "jdk-{{ java_version }}u{{ java_subversion }}-linux-x64.tar.gz"
+java_download_url: "{{ java_source }}/{{ java_version }}u{{ java_subversion }}-b{{ java_build }}/{{ java_archive }}"
+java_home: "{{download_folder}}/jdk1.{{ java_version }}.0_{{ java_subversion }}"
+java_archive_path: "{{download_folder}}/{{ java_archive }}"
