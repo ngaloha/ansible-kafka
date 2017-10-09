@@ -1,6 +1,6 @@
 ---
 - name: Download Java
-  command: "wget -q -O {{ java_archive_path }} --no-check-certificate --no-cookies --header 'Cookie: oraclelicense=accept-securebackup-cookie' {{download_url}} creates={{java_archive}}"
+  command: "wget -q -O {{ java_archive_path }} --no-check-certificate --no-cookies --header 'Cookie: oraclelicense=accept-securebackup-cookie' {{ java_download_url }} creates={{ java_archive_path }}"
 
 - name: Unpack archive
   command: "tar -zxf {{ java_archive_path }} -C {{ download_folder }} creates={{ java_home }}"
@@ -24,13 +24,13 @@
   command: 'alternatives --set jar "{{ java_home }}/bin/jar"'
 
 - name: Setup JAVA_HOME variable
-  command: "export JAVA_HOME={{ java_home }}"
+  command: "echo 'JAVA_HOME={{ java_home }}' >> /etc/environment"
 
 - name: Setup JRE_HOME Variable
-  command: "export JRE_HOME={{ java_home }}/jre"
+  command: "echo 'JRE_HOME={{ java_home }}/jre' >> /etc/environment"
 
 - name: Setup PATH Variable
-  command: "export PATH=$PATH:/opt/{{ java_home }}/bin:{{ java_home }}/jre/bin"
+  command: "echo 'PATH=$PATH:/opt/{{ java_home }}/bin:{{ java_home }}/jre/bin' >> /etc/environment"
 
 - name: Clean up
   file: state=absent path={{ java_archive_path }}

@@ -1,10 +1,10 @@
 ---
 - hosts: all
   vars_files:
-    - ./vars/general.yml
-    - ./vars/java.yml
-    - ./vars/zookeeper.yml
-    - ./vars/kafka.yml
+    - "./vars/general.yml"
+    - "./vars/java.yml"
+    - "./vars/zookeeper.yml"
+    - "./vars/kafka.yml"
 
   tasks:
     - include: task/java.yml
