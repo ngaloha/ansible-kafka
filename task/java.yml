@@ -1,0 +1,5 @@
+name: Downloading Java Package
+  shell: wget --no-cookies --no-check-certificate --header "Cookie: gpw_e24=http%3A%2F%2Fwww.oracle.com%2F; oraclelicense=accept-securebackup-cookie" "http://download.oracle.com/otn-pub/java/jdk/{{ java_version }}u{{ java_subversion }}-b{{ java_build }}/jdk-{{ java_version }}u{{ java_subversion }}-linux-x64.tar.gz"
+
+
+
